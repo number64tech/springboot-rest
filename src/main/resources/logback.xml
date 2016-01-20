@@ -17,7 +17,6 @@
             <Marker>SuppressRepeat</Marker>
             <SuppressSeconds>600</SuppressSeconds>
         </filter>
-        <append>true</append>
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
@@ -26,32 +25,30 @@
 
     <!-- info.log -->
     <appender name="INFOLOG" class="ch.qos.logback.core.FileAppender">
-        <append>true</append>
-        <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
-            <charset>UTF-8</charset>
-        </encoder>
         <file>${LOG_DIR}/info.log</file>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>
-    </appender>
-
-    <!-- error.log -->
-    <appender name="ERRORLOG" class="ch.qos.logback.core.FileAppender">
-        <filter class="jp.number64.springbootrest.logmarker.SuppressRepeatMarkerFilter">
-            <Marker>SuppressRepeat</Marker>
-            <SuppressSeconds>600</SuppressSeconds>
-        </filter>
-        <append>true</append>
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
         </encoder>
+    </appender>
+
+    <!-- error.log -->
+    <appender name="ERRORLOG" class="ch.qos.logback.core.FileAppender">
         <file>${LOG_DIR}/error.log</file>
+        <filter class="jp.number64.springbootrest.logmarker.SuppressRepeatMarkerFilter">
+            <Marker>SuppressRepeat</Marker>
+            <SuppressSeconds>600</SuppressSeconds>
+        </filter>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level>
         </filter>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
     </appender>
 
     <!-- 出力対象選択 -->
