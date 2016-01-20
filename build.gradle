@@ -1,0 +1,67 @@
+apply plugin: 'java'
+apply plugin: "spring-boot"
+apply plugin: 'eclipse'
+
+def defaultEncoding = 'UTF-8'
+compileJava.options.encoding = defaultEncoding
+compileTestJava.options.encoding = defaultEncoding
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.+")
+    }
+}
+
+eclipse {
+    classpath {
+        containers "org.springsource.ide.eclipse.gradle.classpathcontainer"
+    }
+}
+
+jar {
+    baseName = "springboot-rest"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile 'ch.qos.logback:logback-classic:1.1.+'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.+'
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+  testLogging.showStandardStreams = true
+}
+
+
+// ------------------------------------------------------------------------------------------------
+// Additional tasks for unit-test.
+
+// unit (unit-test, running specific class only)
+// This task cleans result everytime, and shows standard-output, and runs target test-class(es) only.
+task unit(type: Test, dependsOn: cleanTest) {
+
+    // command sample: xxx> gradle uT -Ptarget="**/config/*"
+    if (project.hasProperty('target')) {
+        include "${project.target}"
+    }
+    description = 'unit'
+    testClassesDir = sourceSets.test.output.classesDir
+    classpath = sourceSets.test.runtimeClasspath
+    testLogging {
+        events 'started','failed', 'skipped'
+        showStandardStreams = true
+    }
+}
+
